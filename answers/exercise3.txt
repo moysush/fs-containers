@@ -25,21 +25,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS                      
 cb5908655687   ubuntu    "bash"    21 minutes ago   Exited (137) About a minute ago             funny_moser
 
 fs-containers on  main
-❯ docker start -i funny_moser
-permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
-
-fs-containers on  main
 ❯ sudo docker start -i funny_moser
-root@cb5908655687:/# apt install nano
-Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-E: Unable to locate package nano
-root@cb5908655687:/# apt-get install nano
-Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-E: Unable to locate package nano
 root@cb5908655687:/# apt-get update
 Get:1 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
 Get:2 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
