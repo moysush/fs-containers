@@ -14,11 +14,6 @@ funny_moser
 
 fs-containers on  main [!]
 ❯ sudo docker start -i funny_moser
-root@cb5908655687:/# apt-get install node
-Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-E: Unable to locate package node
 root@cb5908655687:/# apt-get update
 Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
 Hit:2 http://security.ubuntu.com/ubuntu noble-security InRelease
