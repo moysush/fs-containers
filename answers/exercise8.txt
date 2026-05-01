@@ -10,23 +10,11 @@ CONTAINER ID   IMAGE     COMMAND                  CREATED        STATUS         
 11a8832f2941   mongo     "docker-entrypoint.s…"   16 hours ago   Up 6 seconds   0.0.0.0:3456->27017/tcp, [::]:3456->27017/tcp   todo-backend-mongo-1
 
 fs-containers/todo-app/todo-backend on  main [?] via  v25.9.0
-❯ sudo docker exec -it todo-backend-mongo-1
-docker: 'docker exec' requires at least 2 arguments
-
-Usage:  docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
-
-See 'docker exec --help' for more information
-
-fs-containers/todo-app/todo-backend on  main [?] via  v25.9.0
 ❯ sudo docker exec -it todo-backend-mongo-1 bash
 root@11a8832f2941:/# ls
 bin   dev			  home	      lib64  opt   run	 sys  var
 boot  docker-entrypoint-initdb.d  js-yaml.js  media  proc  sbin  tmp
 data  etc			  lib	      mnt    root  srv	 usr
-root@11a8832f2941:/# cd docker-entrypoint-initdb.d/
-root@11a8832f2941:/docker-entrypoint-initdb.d# ls
-mongo-init.js
-root@11a8832f2941:/docker-entrypoint-initdb.d# cd ..
 root@11a8832f2941:/# mongosh -u root -p example
 Current Mongosh Log ID:	69f3fe1d0d66e0019c44ba88
 Connecting to:		mongodb://<credentials>@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.8.2
@@ -83,8 +71,6 @@ DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany
   acknowledged: true,
   insertedIds: { '0': ObjectId('69f3ff9b0d66e0019c44ba89') }
 }
-the_database> show todos
-MongoshInvalidInputError: [COMMON-10001] 'todos' is not a valid argument for "show".
 the_database> db.todos.find({})
 [
   {
