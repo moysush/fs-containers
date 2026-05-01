@@ -1,52 +1,60 @@
-const express = require('express');
-const { Todo } = require('../mongo')
+const express = require("express");
+const { Todo } = require("../mongo");
 const router = express.Router();
+const { get, set } = require("../redis/index");
 
 /* GET todos listing. */
-router.get('/', async (_, res) => {
-  const todos = await Todo.find({})
+router.get("/", async (_, res) => {
+  const todos = await Todo.find({});
   res.send(todos);
 });
 
+/* GET statistics fore todos */
+router.get("/statistics", async (_, res) => {
+  const cachedStats = await get("added_todos")
+  res.json({added_todos: Number(cachedStats)})
+})
+
 /* POST todo to listing. */
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   const todo = await Todo.create({
     text: req.body.text,
-    done: false
-  })
+    done: false,
+  });
+  const cachedStats = await get("added_todos");
+  await set("added_todos", (Number(!cachedStats ? 0 : cachedStats) + 1));
   res.send(todo);
 });
 
 const singleRouter = express.Router();
 
 const findByIdMiddleware = async (req, res, next) => {
-  const { id } = req.params
-  req.todo = await Todo.findById(id)
-  if (!req.todo) return res.sendStatus(404)
+  const { id } = req.params;
+  req.todo = await Todo.findById(id);
+  if (!req.todo) return res.sendStatus(404);
 
-  next()
-}
+  next();
+};
 
 /* DELETE todo. */
-singleRouter.delete('/', async (req, res) => {
-  await req.todo.deleteOne()
+singleRouter.delete("/", async (req, res) => {
+  await req.todo.deleteOne();
   res.sendStatus(200);
 });
 
 /* GET todo. */
-singleRouter.get('/', async (req, res) => {
+singleRouter.get("/", async (req, res) => {
   res.send(req.todo);
 });
 
 /* PUT todo. */
-singleRouter.put('/', async (req, res) => {
-  req.todo.text = req.body.text
-  req.todo.done = req.body.done
-  await req.todo.save() //saves it in mongo
+singleRouter.put("/", async (req, res) => {
+  req.todo.text = req.body.text;
+  req.todo.done = req.body.done;
+  await req.todo.save(); //saves it in mongo
   res.send(req.todo);
 });
 
-router.use('/:id', findByIdMiddleware, singleRouter)
-
+router.use("/:id", findByIdMiddleware, singleRouter);
 
 module.exports = router;
