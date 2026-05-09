@@ -8,6 +8,10 @@ services:
     volumes:
       - ./todo-frontend:/usr/src/app
     container_name: todo-frontend
+    environment:
+      - VITE_BACKEND_URL=http://localhost:8080/api/
+    depends_on:
+      - server
 
   # backend
   server:
